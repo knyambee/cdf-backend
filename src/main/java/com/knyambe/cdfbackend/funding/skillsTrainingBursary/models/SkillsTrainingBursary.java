@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Entity
 public class SkillsTrainingBursary {
@@ -20,7 +21,7 @@ public class SkillsTrainingBursary {
 
     private String nrc;
 
-    private String dateOfBirth;
+    private Date dateOfBirth;
 
     private String placeOfBirth;
 
@@ -51,9 +52,9 @@ public class SkillsTrainingBursary {
     private String lastSchoolAttended;
 
     private String lastSchoolAttendedDistrict;
-    private String fromDate;
+    private Date fromDate;
 
-    private String toDate;
+    private Date toDate;
 
     private String highestCertificate;
 
@@ -73,15 +74,15 @@ public class SkillsTrainingBursary {
 
     private String cdfSponsorshipDetails;
 
-    private String gurdianSurname;
+    private String guardianSurname;
 
-    private String gurdianOtherName;
+    private String guardianOtherName;
 
-    private String gurdianGender;
+    private String guardianGender;
 
-    private String gurdianDateOfBirth;
+    private Date guardianDateOfBirth;
 
-    private String gurdianNationality;
+    private String guardianNationality;
 
     private String guardianNRC;
 
@@ -125,9 +126,9 @@ public class SkillsTrainingBursary {
 
     private String positionGuardian;
 
-    private String applicantSigningDate;
+    private Date applicantSigningDate;
 
-    private String parentGurdianSigningDate;
+    private Date parentGuardianSigningDate;
 
     private String nrcCopy;
 
@@ -187,11 +188,11 @@ public class SkillsTrainingBursary {
         this.nrc = nrc;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -315,19 +316,19 @@ public class SkillsTrainingBursary {
         this.lastSchoolAttendedDistrict = lastSchoolAttendedDistrict;
     }
 
-    public String getFromDate() {
+    public Date getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(String fromDate) {
+    public void setFromDate(Date fromDate) {
         this.fromDate = fromDate;
     }
 
-    public String getToDate() {
+    public Date getToDate() {
         return toDate;
     }
 
-    public void setToDate(String toDate) {
+    public void setToDate(Date toDate) {
         this.toDate = toDate;
     }
 
@@ -403,44 +404,44 @@ public class SkillsTrainingBursary {
         this.cdfSponsorshipDetails = cdfSponsorshipDetails;
     }
 
-    public String getGurdianSurname() {
-        return gurdianSurname;
+    public String getGuardianSurname() {
+        return guardianSurname;
     }
 
-    public void setGurdianSurname(String gurdianSurname) {
-        this.gurdianSurname = gurdianSurname;
+    public void setGuardianSurname(String guardianSurname) {
+        this.guardianSurname = guardianSurname;
     }
 
-    public String getGurdianOtherName() {
-        return gurdianOtherName;
+    public String getGuardianOtherName() {
+        return guardianOtherName;
     }
 
-    public void setGurdianOtherName(String gurdianOtherName) {
-        this.gurdianOtherName = gurdianOtherName;
+    public void setGuardianOtherName(String guardianOtherName) {
+        this.guardianOtherName = guardianOtherName;
     }
 
-    public String getGurdianGender() {
-        return gurdianGender;
+    public String getGuardianGender() {
+        return guardianGender;
     }
 
-    public void setGurdianGender(String gurdianGender) {
-        this.gurdianGender = gurdianGender;
+    public void setGuardianGender(String guardianGender) {
+        this.guardianGender = guardianGender;
     }
 
-    public String getGurdianDateOfBirth() {
-        return gurdianDateOfBirth;
+    public Date getGuardianDateOfBirth() {
+        return guardianDateOfBirth;
     }
 
-    public void setGurdianDateOfBirth(String gurdianDateOfBirth) {
-        this.gurdianDateOfBirth = gurdianDateOfBirth;
+    public void setGuardianDateOfBirth(Date guardianDateOfBirth) {
+        this.guardianDateOfBirth = guardianDateOfBirth;
     }
 
-    public String getGurdianNationality() {
-        return gurdianNationality;
+    public String getGuardianNationality() {
+        return guardianNationality;
     }
 
-    public void setGurdianNationality(String gurdianNationality) {
-        this.gurdianNationality = gurdianNationality;
+    public void setGuardianNationality(String guardianNationality) {
+        this.guardianNationality = guardianNationality;
     }
 
     public String getGuardianNRC() {
@@ -611,20 +612,20 @@ public class SkillsTrainingBursary {
         this.positionGuardian = positionGuardian;
     }
 
-    public String getApplicantSigningDate() {
+    public Date getApplicantSigningDate() {
         return applicantSigningDate;
     }
 
-    public void setApplicantSigningDate(String applicantSigningDate) {
+    public void setApplicantSigningDate(Date applicantSigningDate) {
         this.applicantSigningDate = applicantSigningDate;
     }
 
-    public String getParentGurdianSigningDate() {
-        return parentGurdianSigningDate;
+    public Date getParentGuardianSigningDate() {
+        return parentGuardianSigningDate;
     }
 
-    public void setParentGurdianSigningDate(String parentGurdianSigningDate) {
-        this.parentGurdianSigningDate = parentGurdianSigningDate;
+    public void setParentGuardianSigningDate(Date parentGuardianSigningDate) {
+        this.parentGuardianSigningDate = parentGuardianSigningDate;
     }
 
     public String getNrcCopy() {
