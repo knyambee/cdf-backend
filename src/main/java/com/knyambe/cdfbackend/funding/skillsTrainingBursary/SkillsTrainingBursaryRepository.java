@@ -1,11 +1,11 @@
-package com.knyambe.cdfbackend.funding.skillsTrainingBursary.repository;
+package com.knyambe.cdfbackend.funding.skillsTrainingBursary;
 
-import com.knyambe.cdfbackend.funding.skillsTrainingBursary.models.SkillsTrainingBursary;
+import com.knyambe.cdfbackend.funding.skillsTrainingBursary.SkillsTrainingBursary;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RepositoryRestResource(path="skillstrainingbursary")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 public interface SkillsTrainingBursaryRepository extends CrudRepository<SkillsTrainingBursary, Long> {
 }

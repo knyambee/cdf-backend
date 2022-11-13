@@ -1,11 +1,14 @@
-package com.knyambe.cdfbackend.funding.communityProjects.repository;
+package com.knyambe.cdfbackend.funding.communityProjects;
 
-import com.knyambe.cdfbackend.funding.communityProjects.models.CommunityProjects;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.List;
+import java.util.Optional;
+
 @RepositoryRestResource(path = "communityprojects")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public interface CommunityProjectsRepository extends CrudRepository<CommunityProjects, Long> {
+    List<CommunityProjects> findByUserId(String userId);
 }

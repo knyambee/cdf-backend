@@ -1,4 +1,4 @@
-package com.knyambe.cdfbackend.funding.skillsTrainingBursary.models;
+package com.knyambe.cdfbackend.funding.skillsTrainingBursary;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +11,10 @@ public class SkillsTrainingBursary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String userId;
+    private int status;
+    private String referenceNo;
+    private  Date dateCreated;
     private String surname;
 
     private String otherNames;
@@ -140,12 +144,44 @@ public class SkillsTrainingBursary {
     public SkillsTrainingBursary() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getReferenceNo() {
+        return referenceNo;
+    }
+
+    public void setReferenceNo(String referenceNo) {
+        this.referenceNo = referenceNo;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public String getSurname() {

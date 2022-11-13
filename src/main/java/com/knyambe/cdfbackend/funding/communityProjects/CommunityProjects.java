@@ -1,4 +1,4 @@
-package com.knyambe.cdfbackend.funding.communityProjects.models;
+package com.knyambe.cdfbackend.funding.communityProjects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +13,10 @@ public class CommunityProjects {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String userId;
+    private int status;
+    private String referenceNo;
+    private  Date dateCreated;
     private String district;
     private String constituency;
     private String ward;
@@ -52,6 +56,38 @@ public class CommunityProjects {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getReferenceNo() {
+        return referenceNo;
+    }
+
+    public void setReferenceNo(String referenceNo) {
+        this.referenceNo = referenceNo;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public String getDistrict() {

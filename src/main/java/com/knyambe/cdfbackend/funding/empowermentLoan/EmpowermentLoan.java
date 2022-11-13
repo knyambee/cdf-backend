@@ -1,4 +1,4 @@
-package com.knyambe.cdfbackend.funding.empowermentLoan.models;
+package com.knyambe.cdfbackend.funding.empowermentLoan;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +12,10 @@ public class EmpowermentLoan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String userId;
+    private int status;
+    private String referenceNo;
+    private  Date dateCreated;
     private Date borrowingDate;
     private String borrower;
     private String borrowerAddress;
@@ -40,6 +44,38 @@ public class EmpowermentLoan {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getReferenceNo() {
+        return referenceNo;
+    }
+
+    public void setReferenceNo(String referenceNo) {
+        this.referenceNo = referenceNo;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public Date getBorrowingDate() {
