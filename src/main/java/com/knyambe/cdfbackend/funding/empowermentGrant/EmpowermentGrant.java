@@ -1,9 +1,6 @@
 package com.knyambe.cdfbackend.funding.empowermentGrant;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -13,7 +10,7 @@ public class EmpowermentGrant {
     private Long id;
     private String userId;
     private int status;
-    private String referenceNo;
+    private Long referenceNo;
     private  Date dateCreated;
     private String applicantName;
     private String district;
@@ -81,11 +78,11 @@ public class EmpowermentGrant {
         this.status = status;
     }
 
-    public String getReferenceNo() {
+    public Long getReferenceNo() {
         return referenceNo;
     }
 
-    public void setReferenceNo(String referenceNo) {
+    public void setReferenceNo(Long referenceNo) {
         this.referenceNo = referenceNo;
     }
 

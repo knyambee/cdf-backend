@@ -1,21 +1,18 @@
 package com.knyambe.cdfbackend.funding.communityProjects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
 
 @Entity
-public class CommunityProjects {
+public class CommunityProjects  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String userId;
     private int status;
-    private String referenceNo;
+    private Long referenceNo;
     private  Date dateCreated;
     private String district;
     private String constituency;
@@ -50,11 +47,11 @@ public class CommunityProjects {
     public CommunityProjects() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -74,11 +71,11 @@ public class CommunityProjects {
         this.status = status;
     }
 
-    public String getReferenceNo() {
+    public Long getReferenceNo() {
         return referenceNo;
     }
 
-    public void setReferenceNo(String referenceNo) {
+    public void setReferenceNo(Long referenceNo) {
         this.referenceNo = referenceNo;
     }
 
