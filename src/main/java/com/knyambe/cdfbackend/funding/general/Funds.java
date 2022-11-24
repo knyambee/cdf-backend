@@ -26,10 +26,10 @@ public class Funds {
     private BigDecimal amount;
     private String userId;
 
-    public Funds(Long referenceNo, String fundType, Date dateSubmitted, int status, BigDecimal amount, String userId) {
+    public Funds(Long referenceNo, String fundType, int status, BigDecimal amount, String userId) {
         this.referenceNo = referenceNo;
         this.fundType = fundType;
-        this.dateSubmitted = dateSubmitted;
+        this.dateSubmitted = new Date();
         this.status = status;
         this.amount = amount;
         this.userId = userId;
