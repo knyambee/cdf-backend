@@ -1,5 +1,6 @@
 package com.knyambe.cdfbackend.funding.skillsTrainingBursary;
 
+import com.knyambe.cdfbackend.funding.general.FundApplication;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SkillsTrainingBursary {
+public class SkillsTrainingBursary extends FundApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

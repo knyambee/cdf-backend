@@ -2,8 +2,8 @@ package com.knyambe.cdfbackend.funding.communityProjects;
 
 import com.knyambe.cdfbackend.funding.general.Funds;
 import com.knyambe.cdfbackend.funding.general.FundsRepository;
-import com.knyambe.cdfbackend.security.config.User;
-import com.knyambe.cdfbackend.security.config.UserRepository;
+import com.knyambe.cdfbackend.security.User;
+import com.knyambe.cdfbackend.security.UserRepository;
 import org.flowable.engine.RuntimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
@@ -39,13 +39,15 @@ public class CommunityProjectsEventHandler {
         fundsRepository.save(newEntry);
 
         // Find backend user to work on task.
-        User person = new User("2b9b80c1-780d-48c4-a2cf-8467516dd1e6");
-        if(!userRepository.existsById("2b9b80c1-780d-48c4-a2cf-8467516dd1e6")) {
-            userRepository.save(person);
+        User wardCommittee = new User("2c1b8963-902d-49bb-91e6-ed28f515a967");
+        if(!userRepository.existsById("2c1b8963-902d-49bb-91e6-ed28f515a967")) {
+            userRepository.save(wardCommittee);
         }
 
-        Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("person", person);
-        runtimeService.startProcessInstanceByKey("communityProjectsProcess", variables);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("wardCommittee", wardCommittee);
+        variables.put("communityProject", communityProjects);
+        runtimeService.startProcessInstanceByKey("communityProjectTask", variables);
     }
+
 }

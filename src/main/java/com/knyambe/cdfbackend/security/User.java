@@ -1,4 +1,4 @@
-package com.knyambe.cdfbackend.security.config;
+package com.knyambe.cdfbackend.security;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -35,4 +35,9 @@ public class Funds {
         this.userId = userId;
     }
 
+    public Funds(String id, String name, Date createTime) {
+        this.referenceNo = Long.valueOf(id);
+        this.fundType = name;
+        this.dateSubmitted = createTime;
+    }
 }

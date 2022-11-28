@@ -1,5 +1,6 @@
 package com.knyambe.cdfbackend.funding.communityProjects;
 
+import com.knyambe.cdfbackend.funding.general.FundApplication;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommunityProjects  {
+public class CommunityProjects extends FundApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
