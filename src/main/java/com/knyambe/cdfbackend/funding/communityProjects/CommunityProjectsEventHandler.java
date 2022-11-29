@@ -11,6 +11,7 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @RepositoryEventHandler
@@ -30,23 +31,20 @@ public class CommunityProjectsEventHandler {
     public void invokeWorkflow(CommunityProjects communityProjects) {
         logger.info("Invoking workflow for community project Reference no: " + communityProjects.getReferenceNo());
 
-        Funds newEntry = new Funds(
-                communityProjects.getReferenceNo(),
-                "Community project",
-                communityProjects.getStatus(),
-                communityProjects.getEstimatedCost(),
-                communityProjects.getUserId());
-        fundsRepository.save(newEntry);
-
-        // Find backend user to work on task.
-        User wardCommittee = new User("2c1b8963-902d-49bb-91e6-ed28f515a967");
-        if(!userRepository.existsById("2c1b8963-902d-49bb-91e6-ed28f515a967")) {
-            userRepository.save(wardCommittee);
-        }
+        // Find backend users to work on task.
+        User wardCommittee = userRepository.findByUsername("wardCommittee");
+        User constituencyCommittee = userRepository.findByUsername("constituencyCommittee");
+        User localGov = userRepository.findByUsername("localGov");
+        User minister = userRepository.findByUsername("minister");
 
         Map<String, Object> variables = new HashMap<>();
+        variables.put("constituencyCommittee", constituencyCommittee);
+        variables.put("localGov", localGov);
         variables.put("wardCommittee", wardCommittee);
+        variables.put("minister", minister);
+
         variables.put("communityProject", communityProjects);
+
         runtimeService.startProcessInstanceByKey("communityProjectTask", variables);
     }
 

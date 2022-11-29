@@ -27,4 +27,9 @@ public class User {
     public User(String id) {
         this.id = id;
     }
+
+    public User(String id, String name) {
+        this.id = id;
+        this.username = name;
+    }
 }
