@@ -1,6 +1,9 @@
 package com.knyambe.cdfbackend.workflow;
 
 import com.knyambe.cdfbackend.funding.communityProjects.CommunityProjects;
+import com.knyambe.cdfbackend.funding.empowermentGrant.EmpowermentGrant;
+import com.knyambe.cdfbackend.funding.empowermentLoan.EmpowermentLoan;
+import com.knyambe.cdfbackend.funding.skillsTrainingBursary.SkillsTrainingBursary;
 import com.knyambe.cdfbackend.security.User;
 import org.flowable.engine.TaskService;
 import org.flowable.task.api.Task;
@@ -29,7 +32,15 @@ public class TasksController {
         List<FundingTask> dtos = new ArrayList<>();
         for (Task task : tasks) {
             Map<String, Object> processVariables = taskService.getVariables(task.getId());
-            dtos.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (CommunityProjects) processVariables.get("communityProject"), (User) processVariables.get("wardCommittee")));
+            if (task.getProcessDefinitionId().contains("communityProjectTask")) {
+                dtos.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (CommunityProjects) processVariables.get("communityProject"), (User) processVariables.get("wardCommittee")));
+            } else if (task.getProcessDefinitionId().contains("empowermentGrantTask")) {
+                dtos.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (EmpowermentGrant) processVariables.get("empowermentGrant"), (User) processVariables.get("wardCommittee")));
+            } else if (task.getProcessDefinitionId().contains("empowermentLoanTask")) {
+                dtos.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (EmpowermentLoan) processVariables.get("empowermentLoan"), (User) processVariables.get("wardCommittee")));
+            } else if (task.getProcessDefinitionId().contains("skillsDevelopmentBursaryTask")) {
+                dtos.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (SkillsTrainingBursary) processVariables.get("skillsTrainingBursary"), (User) processVariables.get("wardCommittee")));
+            }
         }
         return dtos;
     }
