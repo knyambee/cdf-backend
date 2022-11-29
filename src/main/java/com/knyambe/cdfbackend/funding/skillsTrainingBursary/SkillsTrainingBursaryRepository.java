@@ -1,6 +1,5 @@
 package com.knyambe.cdfbackend.funding.skillsTrainingBursary;
 
-import com.knyambe.cdfbackend.funding.skillsTrainingBursary.SkillsTrainingBursary;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
