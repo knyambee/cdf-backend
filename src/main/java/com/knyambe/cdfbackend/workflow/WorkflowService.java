@@ -29,4 +29,8 @@ public class WorkflowService {
         taskService.complete(approval.getId(), variables);
     }
 
+    public Task getTaskByProcessInstanceId(String processInstanceId) {
+        return taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+    }
+
 }

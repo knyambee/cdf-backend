@@ -46,7 +46,7 @@ public class TasksController {
     }
 
     @PostMapping("/approve")
-    public void approveHolidayRequest(@RequestBody Approval approval) {
+    public void approveFundingApplication(@RequestBody Approval approval) {
         workflowService.submitApproval(approval);
     }
 
