@@ -1,5 +1,7 @@
 package com.knyambe.cdfbackend.funding.communityProjects;
 
+import com.knyambe.cdfbackend.funding.general.Funds;
+import com.knyambe.cdfbackend.funding.general.FundsRepository;
 import com.knyambe.cdfbackend.security.User;
 import com.knyambe.cdfbackend.security.UserRepository;
 import org.flowable.engine.RuntimeService;
@@ -17,9 +19,11 @@ public class CommunityProjectsEventHandler {
     @Autowired
     private RuntimeService runtimeService;
     private final UserRepository userRepository;
+    private final FundsRepository fundsRepository;
 
-    public CommunityProjectsEventHandler(UserRepository userRepository) {
+    public CommunityProjectsEventHandler(UserRepository userRepository, FundsRepository fundsRepository) {
         this.userRepository = userRepository;
+        this.fundsRepository = fundsRepository;
     }
 
     @HandleAfterCreate
@@ -41,6 +45,9 @@ public class CommunityProjectsEventHandler {
         variables.put("communityProject", communityProjects);
 
         runtimeService.startProcessInstanceByKey("communityProjectTask", variables);
+
+        Funds newEntry = new Funds(communityProjects.getReferenceNo(), "Community Project", communityProjects.getEstimatedCost(), communityProjects.getUserId());
+        fundsRepository.save(newEntry);
     }
 
 }

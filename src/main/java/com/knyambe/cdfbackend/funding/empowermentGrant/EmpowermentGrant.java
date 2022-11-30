@@ -18,7 +18,7 @@ public class EmpowermentGrant extends FundApplication {
     private Long id;
     private String userId;
     private int status;
-    private Long referenceNo;
+    private String referenceNo;
     private String applicantName;
     private String district;
     private String constituency;

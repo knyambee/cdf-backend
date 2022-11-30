@@ -1,6 +1,7 @@
 package com.knyambe.cdfbackend.funding.skillsTrainingBursary;
 
 import com.knyambe.cdfbackend.funding.general.FundApplication;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,8 +10,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class SkillsTrainingBursary extends FundApplication {
     @Id
@@ -18,26 +18,17 @@ public class SkillsTrainingBursary extends FundApplication {
     private Long id;
     private String userId;
     private int status;
-    private Long referenceNo;
+    private String referenceNo;
     private  Date dateCreated;
     private String surname;
-
     private String otherNames;
-
     private String gender;
-
     private String nationality;
-
     private String nrc;
-
     private Date dateOfBirth;
-
     private String placeOfBirth;
-
     private String district;
-
     private String constituency;
-
     private String ward;
 
     private String zone;

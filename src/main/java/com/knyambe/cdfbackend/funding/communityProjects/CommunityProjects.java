@@ -20,8 +20,7 @@ public class CommunityProjects extends FundApplication {
     private Long id;
     private String userId;
     private int status;
-    private Long referenceNo;
-    private  Date dateCreated;
+    private String referenceNo;
     private String district;
     private String constituency;
     private String ward;

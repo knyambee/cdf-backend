@@ -1,17 +1,15 @@
 package com.knyambe.cdfbackend.funding.empowermentLoan;
 
 import com.knyambe.cdfbackend.funding.general.FundApplication;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class EmpowermentLoan extends FundApplication {
     @Id
@@ -19,7 +17,7 @@ public class EmpowermentLoan extends FundApplication {
     private Long id;
     private String userId;
     private int status;
-    private Long referenceNo;
+    private String referenceNo;
     private  Date dateCreated;
     private Date borrowingDate;
     private String borrower;

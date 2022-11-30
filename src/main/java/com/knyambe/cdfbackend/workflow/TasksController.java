@@ -29,21 +29,22 @@ public class TasksController {
     @GetMapping( "/tasks")
     public List<FundingTask> getTasks(@RequestParam String assignee) {
         List<Task> tasks = workflowService.getTasks(assignee);
-        List<FundingTask> dtos = new ArrayList<>();
+        List<FundingTask> pendingTasks = new ArrayList<>();
         for (Task task : tasks) {
             Map<String, Object> processVariables = taskService.getVariables(task.getId());
             if (task.getName().contains("Community")) {
-                dtos.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (CommunityProjects) processVariables.get("communityProject"), (User) processVariables.get("wardCommittee")));
+                pendingTasks.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (CommunityProjects) processVariables.get("communityProject"), (User) processVariables.get("wardCommittee")));
             } else if (task.getName().contains("Grant")) {
-                dtos.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (EmpowermentGrant) processVariables.get("empowermentGrant"), (User) processVariables.get("wardCommittee")));
+                pendingTasks.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (EmpowermentGrant) processVariables.get("empowermentGrant"), (User) processVariables.get("wardCommittee")));
             } else if (task.getName().contains("Loan")) {
-                dtos.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (EmpowermentLoan) processVariables.get("empowermentLoan"), (User) processVariables.get("wardCommittee")));
+                pendingTasks.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (EmpowermentLoan) processVariables.get("empowermentLoan"), (User) processVariables.get("wardCommittee")));
             } else if (task.getName().contains("Skills")) {
-                dtos.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (SkillsTrainingBursary) processVariables.get("skillsTrainingBursary"), (User) processVariables.get("wardCommittee")));
+                pendingTasks.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (SkillsTrainingBursary) processVariables.get("skillsTrainingBursary"), (User) processVariables.get("wardCommittee")));
             }
         }
-        return dtos;
+        return pendingTasks;
     }
+
     @PostMapping("/approve")
     public void approveHolidayRequest(@RequestBody Approval approval) {
         workflowService.submitApproval(approval);

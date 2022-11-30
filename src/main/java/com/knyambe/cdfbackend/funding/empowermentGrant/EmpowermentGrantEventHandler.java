@@ -1,11 +1,14 @@
 package com.knyambe.cdfbackend.funding.empowermentGrant;
 
+import com.knyambe.cdfbackend.funding.general.Funds;
+import com.knyambe.cdfbackend.funding.general.FundsRepository;
 import com.knyambe.cdfbackend.security.User;
 import com.knyambe.cdfbackend.security.UserRepository;
 import org.flowable.engine.RuntimeService;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,10 +16,12 @@ import java.util.Map;
 public class EmpowermentGrantEventHandler {
     private final RuntimeService runtimeService;
     private final UserRepository userRepository;
+    private final FundsRepository fundsRepository;
 
-    public EmpowermentGrantEventHandler(RuntimeService runtimeService, UserRepository userRepository) {
+    public EmpowermentGrantEventHandler(RuntimeService runtimeService, UserRepository userRepository, FundsRepository fundsRepository) {
         this.runtimeService = runtimeService;
         this.userRepository = userRepository;
+        this.fundsRepository = fundsRepository;
     }
 
     @HandleAfterCreate
@@ -36,5 +41,8 @@ public class EmpowermentGrantEventHandler {
         variables.put("empowermentGrant", empowermentGrant);
 
         runtimeService.startProcessInstanceByKey("empowermentGrantTask", variables);
+
+        Funds newEntry = new Funds(empowermentGrant.getReferenceNo(), "Empowerment Grant", new BigDecimal(0), empowermentGrant.getUserId());
+        fundsRepository.save(newEntry);
     }
 }
