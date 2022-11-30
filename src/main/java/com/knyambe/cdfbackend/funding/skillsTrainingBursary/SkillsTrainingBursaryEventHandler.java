@@ -1,6 +1,5 @@
 package com.knyambe.cdfbackend.funding.skillsTrainingBursary;
 
-import com.knyambe.cdfbackend.funding.empowermentLoan.EmpowermentLoan;
 import com.knyambe.cdfbackend.security.User;
 import com.knyambe.cdfbackend.security.UserRepository;
 import org.flowable.engine.RuntimeService;
@@ -23,15 +22,19 @@ public class SkillsTrainingBursaryEventHandler {
 
     @HandleAfterCreate
     public void invokeWorkflow(SkillsTrainingBursary skillsTrainingBursary ) {
-        // Find backend user to work on task.
-        User wardCommittee = new User("2c1b8963-902d-49bb-91e6-ed28f515a967");
-        if(!userRepository.existsById("2c1b8963-902d-49bb-91e6-ed28f515a967")) {
-            userRepository.save(wardCommittee);
-        }
+        // Find backend users to work on task.
+        User wardCommittee = userRepository.findByUsername("wardCommittee");
+        User constituencyCommittee = userRepository.findByUsername("constituencyCommittee");
+        User localGov = userRepository.findByUsername("localGov");
+        User minister = userRepository.findByUsername("minister");
 
         Map<String, Object> variables = new HashMap<>();
         variables.put("wardCommittee", wardCommittee);
+        variables.put("constituencyCommittee", constituencyCommittee);
+        variables.put("localGov", localGov);
+        variables.put("minister", minister);
         variables.put("skillsTrainingBursary", skillsTrainingBursary);
+
         runtimeService.startProcessInstanceByKey("skillsDevelopmentBursaryTask", variables);
     }
 }

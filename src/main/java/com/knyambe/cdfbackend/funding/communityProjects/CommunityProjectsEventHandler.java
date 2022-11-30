@@ -1,7 +1,5 @@
 package com.knyambe.cdfbackend.funding.communityProjects;
 
-import com.knyambe.cdfbackend.funding.general.Funds;
-import com.knyambe.cdfbackend.funding.general.FundsRepository;
 import com.knyambe.cdfbackend.security.User;
 import com.knyambe.cdfbackend.security.UserRepository;
 import org.flowable.engine.RuntimeService;
@@ -11,7 +9,6 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 @RepositoryEventHandler
@@ -19,11 +16,9 @@ public class CommunityProjectsEventHandler {
     Logger logger = Logger.getLogger("Class CommunityProjectsEventHandler");
     @Autowired
     private RuntimeService runtimeService;
-    private final FundsRepository fundsRepository;
     private final UserRepository userRepository;
 
-    public CommunityProjectsEventHandler(FundsRepository fundsRepository, UserRepository userRepository) {
-        this.fundsRepository = fundsRepository;
+    public CommunityProjectsEventHandler(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -38,9 +33,9 @@ public class CommunityProjectsEventHandler {
         User minister = userRepository.findByUsername("minister");
 
         Map<String, Object> variables = new HashMap<>();
+        variables.put("wardCommittee", wardCommittee);
         variables.put("constituencyCommittee", constituencyCommittee);
         variables.put("localGov", localGov);
-        variables.put("wardCommittee", wardCommittee);
         variables.put("minister", minister);
 
         variables.put("communityProject", communityProjects);

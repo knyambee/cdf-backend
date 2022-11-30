@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
              xmlns:flowable="http://flowable.org/bpmn"
+             typeLanguage="http://www.w3.org/2001/XMLSchema"
+             expressionLanguage="http://www.w3.org/1999/XPath"
              targetNamespace="http://www.flowable.org/processdef">
 
-    <process id="empowermentGrantTask" name="Empowerment Grant" isExecutable="true">
+    <process id="skillsDevelopmentBursaryTask" name="Skills Development Bursary" isExecutable="true">
         <startEvent id="startEvent"/>
         <!-- Ward -->
         <sequenceFlow sourceRef="startEvent" targetRef="wardApproveTask"/>
-        <userTask id="wardApproveTask" name="Review Empowerment Grant Application" flowable:assignee="${wardCommittee.id}"/>
+        <userTask id="wardApproveTask" name="Review Skills Development Application" flowable:assignee="${wardCommittee.id}"/>
         <sequenceFlow sourceRef="wardApproveTask" targetRef="wardDecision"/>
 
         <exclusiveGateway id="wardDecision"/>
@@ -35,7 +41,7 @@
         <sequenceFlow sourceRef="sendWardRejectionMail" targetRef="wardRejection"/>
         <endEvent id="wardRejection"/>
         <!--   Constituency -->
-        <userTask id="constituencyApproveTask" name="Review Empowerment Grant Application" flowable:assignee="${constituencyCommittee.id}"/>
+        <userTask id="constituencyApproveTask" name="Review Skills Development Application" flowable:assignee="${constituencyCommittee.id}"/>
         <sequenceFlow sourceRef="constituencyApproveTask" targetRef="constituencyDecision"/>
 
         <exclusiveGateway id="constituencyDecision"/>
@@ -61,7 +67,7 @@
         <sequenceFlow sourceRef="sendConstituencyRejectionMail" targetRef="constituencyRejection"/>
         <endEvent id="constituencyRejection"/>
         <!--   Local government     -->
-        <userTask id="LocalGovernmentApproveTask" name="Review Empowerment Grant Application" flowable:assignee="${localGov.id}"/>
+        <userTask id="LocalGovernmentApproveTask" name="Review Skills Development Application" flowable:assignee="${localGov.id}"/>
         <sequenceFlow sourceRef="LocalGovernmentApproveTask" targetRef="localGovernmentDecision"/>
         <exclusiveGateway id="localGovernmentDecision"/>
         <sequenceFlow sourceRef="localGovernmentDecision" targetRef="localGovernmentApprovalNotification">
@@ -86,7 +92,7 @@
         <sequenceFlow sourceRef="sendLocalGovernmentRejectionMail" targetRef="localGovernmentRejection"/>
         <endEvent id="localGovernmentRejection"/>
         <!--   Minister     -->
-        <userTask id="ministerApproveTask" name="Review Empowerment Grant Application" flowable:assignee="${minister.id}"/>
+        <userTask id="ministerApproveTask" name="Review Skills Development Application" flowable:assignee="${minister.id}"/>
         <sequenceFlow sourceRef="ministerApproveTask" targetRef="ministerDecision"/>
         <exclusiveGateway id="ministerDecision"/>
         <sequenceFlow sourceRef="ministerDecision" targetRef="ministerApprovalNotification">

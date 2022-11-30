@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
-             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
-             xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
              xmlns:flowable="http://flowable.org/bpmn"
-             typeLanguage="http://www.w3.org/2001/XMLSchema"
-             expressionLanguage="http://www.w3.org/1999/XPath"
              targetNamespace="http://www.flowable.org/processdef">
 
     <process id="secondarySchoolBursaryTask" name="Secondary School Bursary" isExecutable="true">
-
         <startEvent id="startEvent"/>
-        <sequenceFlow sourceRef="startEvent" targetRef="approveTask"/>
+        <!-- Ward -->
+        <sequenceFlow sourceRef="startEvent" targetRef="wardApproveTask"/>
+        <userTask id="wardApproveTask" name="Review Secondary School Bursary Application" flowable:assignee="${wardCommittee.id}"/>
+        <sequenceFlow sourceRef="wardApproveTask" targetRef="wardDecision"/>
 
-        <userTask id="approveTask" name="Review Secondary School Bursary Application" flowable:assignee="${wardCommittee.id}"/>
-        <sequenceFlow sourceRef="approveTask" targetRef="decision"/>
-
-        <exclusiveGateway id="decision"/>
-        <sequenceFlow sourceRef="decision" targetRef="externalSystemCall">
+        <exclusiveGateway id="wardDecision"/>
+        <sequenceFlow sourceRef="wardDecision" targetRef="wardApprovalNotification">
             <conditionExpression xsi:type="tFormalExpression">
                 <![CDATA[
           ${approved}
         ]]>
             </conditionExpression>
         </sequenceFlow>
-        <sequenceFlow sourceRef="decision" targetRef="sendRejectionMail">
+        <sequenceFlow sourceRef="wardDecision" targetRef="sendWardRejectionMail">
             <conditionExpression xsi:type="tFormalExpression">
                 <![CDATA[
           ${!approved}
@@ -34,14 +27,89 @@
             </conditionExpression>
         </sequenceFlow>
 
-        <serviceTask id="externalSystemCall" name="Pass application to CDF committee"
-                     flowable:class="com.knyambe.cdfbackend.workflow.CommunityProjectApprove"/>
-        <sequenceFlow sourceRef="externalSystemCall" targetRef="approveEnd"/>
-        <serviceTask id="sendRejectionMail" name="Send out rejection email"
-                     flowable:class="com.knyambe.cdfbackend.workflow.CommunityProjectReject"/>
-        <sequenceFlow sourceRef="sendRejectionMail" targetRef="rejectEnd"/>
-        <endEvent id="approveEnd"/>
-        <endEvent id="rejectEnd"/>
-    </process>
+        <serviceTask id="wardApprovalNotification" name="Pass application to constituency committee for review"
+                     flowable:class="com.knyambe.cdfbackend.workflow.ward.WardApproval"/>
+        <sequenceFlow sourceRef="wardApprovalNotification" targetRef="constituencyApproveTask"/>
+        <serviceTask id="sendWardRejectionMail" name="Send out rejection email"
+                     flowable:class="com.knyambe.cdfbackend.workflow.ward.WardRejection"/>
+        <sequenceFlow sourceRef="sendWardRejectionMail" targetRef="wardRejection"/>
+        <endEvent id="wardRejection"/>
+        <!--   Constituency -->
+        <userTask id="constituencyApproveTask" name="Review Secondary School Bursary Application" flowable:assignee="${constituencyCommittee.id}"/>
+        <sequenceFlow sourceRef="constituencyApproveTask" targetRef="constituencyDecision"/>
 
+        <exclusiveGateway id="constituencyDecision"/>
+        <sequenceFlow sourceRef="constituencyDecision" targetRef="constituencyApprovalNotification">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+          ${approved}
+        ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow sourceRef="constituencyDecision" targetRef="sendConstituencyRejectionMail">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+          ${!approved}
+        ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <serviceTask id="constituencyApprovalNotification" name="Pass application to Local government for review"
+                     flowable:class="com.knyambe.cdfbackend.workflow.constituency.ConstituencyApproval"/>
+        <sequenceFlow sourceRef="constituencyApprovalNotification" targetRef="LocalGovernmentApproveTask"/>
+        <serviceTask id="sendConstituencyRejectionMail" name="Send out rejection email"
+                     flowable:class="com.knyambe.cdfbackend.workflow.constituency.ConstituencyRejection"/>
+        <sequenceFlow sourceRef="sendConstituencyRejectionMail" targetRef="constituencyRejection"/>
+        <endEvent id="constituencyRejection"/>
+        <!--   Local government     -->
+        <userTask id="LocalGovernmentApproveTask" name="Review Secondary School Bursary Application" flowable:assignee="${localGov.id}"/>
+        <sequenceFlow sourceRef="LocalGovernmentApproveTask" targetRef="localGovernmentDecision"/>
+        <exclusiveGateway id="localGovernmentDecision"/>
+        <sequenceFlow sourceRef="localGovernmentDecision" targetRef="localGovernmentApprovalNotification">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+          ${approved}
+        ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow sourceRef="localGovernmentDecision" targetRef="sendLocalGovernmentRejectionMail">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+          ${!approved}
+        ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <serviceTask id="localGovernmentApprovalNotification" name="Pass application to the Minister for review"
+                     flowable:class="com.knyambe.cdfbackend.workflow.localgovernment.LocalGovernmentApproval"/>
+        <sequenceFlow sourceRef="localGovernmentApprovalNotification" targetRef="ministerApproveTask"/>
+        <serviceTask id="sendLocalGovernmentRejectionMail" name="Send out rejection email"
+                     flowable:class="com.knyambe.cdfbackend.workflow.localgovernment.LocalGovernmentRejection"/>
+        <sequenceFlow sourceRef="sendLocalGovernmentRejectionMail" targetRef="localGovernmentRejection"/>
+        <endEvent id="localGovernmentRejection"/>
+        <!--   Minister     -->
+        <userTask id="ministerApproveTask" name="Review Secondary School Bursary Application" flowable:assignee="${minister.id}"/>
+        <sequenceFlow sourceRef="ministerApproveTask" targetRef="ministerDecision"/>
+        <exclusiveGateway id="ministerDecision"/>
+        <sequenceFlow sourceRef="ministerDecision" targetRef="ministerApprovalNotification">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+          ${approved}
+        ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow sourceRef="ministerDecision" targetRef="sendMinisterRejectionMail">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+          ${!approved}
+        ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <serviceTask id="ministerApprovalNotification" name="Final approval: Award funding"
+                     flowable:class="com.knyambe.cdfbackend.workflow.minister.MinisterApproval"/>
+        <sequenceFlow sourceRef="ministerApprovalNotification" targetRef="ministerApproval"/>
+        <serviceTask id="sendMinisterRejectionMail" name="Send out rejection email"
+                     flowable:class="com.knyambe.cdfbackend.workflow.minister.MinisterRejection"/>
+        <sequenceFlow sourceRef="sendMinisterRejectionMail" targetRef="ministerRejection"/>
+        <endEvent id="ministerApproval"/>
+        <endEvent id="ministerRejection"/>
+    </process>
 </definitions>
