@@ -6,9 +6,11 @@
 
     <process id="secondarySchoolBursaryTask" name="Secondary School Bursary" isExecutable="true">
         <startEvent id="startEvent"/>
+
         <!-- Ward -->
         <sequenceFlow sourceRef="startEvent" targetRef="wardApproveTask"/>
-        <userTask id="wardApproveTask" name="Review Secondary School Bursary Application" flowable:assignee="${wardCommittee.id}"/>
+        <userTask id="wardApproveTask" name="Review Secondary School Bursary Application"
+                  flowable:assignee="${wardCommittee.id}"/>
         <sequenceFlow sourceRef="wardApproveTask" targetRef="wardDecision"/>
 
         <exclusiveGateway id="wardDecision"/>
@@ -27,15 +29,38 @@
             </conditionExpression>
         </sequenceFlow>
 
-        <serviceTask id="wardApprovalNotification" name="Pass application to constituency committee for review"
+        <serviceTask id="wardApprovalNotification" name="Submit application to constituency committee for review"
                      flowable:class="com.knyambe.cdfbackend.workflow.ward.WardApproval"/>
         <sequenceFlow sourceRef="wardApprovalNotification" targetRef="constituencyApproveTask"/>
-        <serviceTask id="sendWardRejectionMail" name="Send out rejection email"
-                     flowable:class="com.knyambe.cdfbackend.workflow.ward.WardRejection"/>
+        <serviceTask id="sendWardRejectionMail" flowable:type="mail">
+            <extensionElements>
+                <flowable:field name="from" stringValue="knyambedev@gmail.com"/>
+                <flowable:field name="to" expression="knyambe.social@gmail.com"/>
+                <flowable:field name="subject" expression="Your application for secondary school bursary"/>
+                <flowable:field name="html">
+                    <flowable:expression>
+                        <![CDATA[
+                          <html>
+                            <body>
+                              Hello Applicant,<br/><br/>
+
+                              Your application for secondary school bursary has been declined by the ward committee.<br/><br/>
+
+                              Kind regards,<br/>
+                              Ward Committee.
+                            </body>
+                          </html>
+                        ]]>
+                    </flowable:expression>
+                </flowable:field>
+            </extensionElements>
+        </serviceTask>
         <sequenceFlow sourceRef="sendWardRejectionMail" targetRef="wardRejection"/>
         <endEvent id="wardRejection"/>
+
         <!--   Constituency -->
-        <userTask id="constituencyApproveTask" name="Review Secondary School Bursary Application" flowable:assignee="${constituencyCommittee.id}"/>
+        <userTask id="constituencyApproveTask" name="Review Secondary School Bursary Submission"
+                  flowable:assignee="${constituencyCommittee.id}"/>
         <sequenceFlow sourceRef="constituencyApproveTask" targetRef="constituencyDecision"/>
 
         <exclusiveGateway id="constituencyDecision"/>
@@ -53,15 +78,38 @@
         ]]>
             </conditionExpression>
         </sequenceFlow>
-        <serviceTask id="constituencyApprovalNotification" name="Pass application to Local government for review"
+        <serviceTask id="constituencyApprovalNotification" name="Submit application to Local government for review"
                      flowable:class="com.knyambe.cdfbackend.workflow.constituency.ConstituencyApproval"/>
         <sequenceFlow sourceRef="constituencyApprovalNotification" targetRef="LocalGovernmentApproveTask"/>
-        <serviceTask id="sendConstituencyRejectionMail" name="Send out rejection email"
-                     flowable:class="com.knyambe.cdfbackend.workflow.constituency.ConstituencyRejection"/>
+        <serviceTask id="sendConstituencyRejectionMail" flowable:type="mail">
+            <extensionElements>
+                <flowable:field name="from" stringValue="knyambedev@gmail.com"/>
+                <flowable:field name="to" expression="knyambe.social@gmail.com"/>
+                <flowable:field name="subject" expression="Your submission for secondary school bursary"/>
+                <flowable:field name="html">
+                    <flowable:expression>
+                        <![CDATA[
+                          <html>
+                            <body>
+                              Hello Ward Committee,<br/><br/>
+
+                              Your submission for secondary school bursary has been declined by the constituency development committee.<br/><br/>
+
+                              Kind regards,<br/>
+                              Constituency Development Committee.
+                            </body>
+                          </html>
+                        ]]>
+                    </flowable:expression>
+                </flowable:field>
+            </extensionElements>
+        </serviceTask>
         <sequenceFlow sourceRef="sendConstituencyRejectionMail" targetRef="constituencyRejection"/>
         <endEvent id="constituencyRejection"/>
+
         <!--   Local government     -->
-        <userTask id="LocalGovernmentApproveTask" name="Review Secondary School Bursary Application" flowable:assignee="${localGov.id}"/>
+        <userTask id="LocalGovernmentApproveTask" name="Review Secondary School Bursary Submission"
+                  flowable:assignee="${localGov.id}"/>
         <sequenceFlow sourceRef="LocalGovernmentApproveTask" targetRef="localGovernmentDecision"/>
         <exclusiveGateway id="localGovernmentDecision"/>
         <sequenceFlow sourceRef="localGovernmentDecision" targetRef="localGovernmentApprovalNotification">
@@ -78,15 +126,38 @@
         ]]>
             </conditionExpression>
         </sequenceFlow>
-        <serviceTask id="localGovernmentApprovalNotification" name="Pass application to the Minister for review"
+        <serviceTask id="localGovernmentApprovalNotification" name="Submit application to the Minister for review"
                      flowable:class="com.knyambe.cdfbackend.workflow.localgovernment.LocalGovernmentApproval"/>
         <sequenceFlow sourceRef="localGovernmentApprovalNotification" targetRef="ministerApproveTask"/>
-        <serviceTask id="sendLocalGovernmentRejectionMail" name="Send out rejection email"
-                     flowable:class="com.knyambe.cdfbackend.workflow.localgovernment.LocalGovernmentRejection"/>
+        <serviceTask id="sendLocalGovernmentRejectionMail" flowable:type="mail">
+            <extensionElements>
+                <flowable:field name="from" stringValue="knyambedev@gmail.com"/>
+                <flowable:field name="to" expression="knyambe.social@gmail.com"/>
+                <flowable:field name="subject" expression="Your submission for secondary school bursary"/>
+                <flowable:field name="html">
+                    <flowable:expression>
+                        <![CDATA[
+                          <html>
+                            <body>
+                              Hello Constituency Development Committee,<br/><br/>
+
+                              Your submission for secondary school bursary has been declined by the local authority.<br/><br/>
+
+                              Kind regards,<br/>
+                              Local Government Authority.
+                            </body>
+                          </html>
+                        ]]>
+                    </flowable:expression>
+                </flowable:field>
+            </extensionElements>
+        </serviceTask>
         <sequenceFlow sourceRef="sendLocalGovernmentRejectionMail" targetRef="localGovernmentRejection"/>
         <endEvent id="localGovernmentRejection"/>
+
         <!--   Minister     -->
-        <userTask id="ministerApproveTask" name="Review Secondary School Bursary Application" flowable:assignee="${minister.id}"/>
+        <userTask id="ministerApproveTask" name="Review Secondary School Bursary Submission"
+                  flowable:assignee="${minister.id}"/>
         <sequenceFlow sourceRef="ministerApproveTask" targetRef="ministerDecision"/>
         <exclusiveGateway id="ministerDecision"/>
         <sequenceFlow sourceRef="ministerDecision" targetRef="ministerApprovalNotification">
@@ -103,11 +174,33 @@
         ]]>
             </conditionExpression>
         </sequenceFlow>
-        <serviceTask id="ministerApprovalNotification" name="Final approval: Award funding"
+        <serviceTask id="ministerApprovalNotification" name="Final approval - Award funding"
                      flowable:class="com.knyambe.cdfbackend.workflow.minister.MinisterApproval"/>
         <sequenceFlow sourceRef="ministerApprovalNotification" targetRef="ministerApproval"/>
-        <serviceTask id="sendMinisterRejectionMail" name="Send out rejection email"
-                     flowable:class="com.knyambe.cdfbackend.workflow.minister.MinisterRejection"/>
+        <sequenceFlow sourceRef="localGovernmentApprovalNotification" targetRef="ministerApproveTask"/>
+        <serviceTask id="sendMinisterRejectionMail" flowable:type="mail">
+            <extensionElements>
+                <flowable:field name="from" stringValue="knyambedev@gmail.com"/>
+                <flowable:field name="to" expression="knyambe.social@gmail.com"/>
+                <flowable:field name="subject" expression="Your submission for secondary school bursary"/>
+                <flowable:field name="html">
+                    <flowable:expression>
+                        <![CDATA[
+                          <html>
+                            <body>
+                              Hello Local Government,<br/><br/>
+
+                              Your submission for secondary school bursary has been declined by the minister.<br/><br/>
+
+                              Kind regards,<br/>
+                              Minister.
+                            </body>
+                          </html>
+                        ]]>
+                    </flowable:expression>
+                </flowable:field>
+            </extensionElements>
+        </serviceTask>
         <sequenceFlow sourceRef="sendMinisterRejectionMail" targetRef="ministerRejection"/>
         <endEvent id="ministerApproval"/>
         <endEvent id="ministerRejection"/>
