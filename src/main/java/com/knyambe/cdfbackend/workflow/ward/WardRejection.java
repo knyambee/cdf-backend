@@ -1,16 +1,11 @@
 package com.knyambe.cdfbackend.workflow.ward;
 
-import com.knyambe.cdfbackend.workflow.WorkflowService;
-import org.flowable.engine.delegate.DelegateExecution;
-import org.flowable.engine.delegate.JavaDelegate;
-import org.flowable.task.api.Task;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class WardRejection implements JavaDelegate {
+@Service
+public class WardRejection {
 
-    @Override
-    public void execute(DelegateExecution execution) {
-
+    public void sendWardRejectionEmail() {
         System.out.println("Application rejected at ward level");
     }
 }
