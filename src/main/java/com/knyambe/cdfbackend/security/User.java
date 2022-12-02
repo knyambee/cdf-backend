@@ -1,35 +1,16 @@
 package com.knyambe.cdfbackend.security;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.Date;
+import java.io.Serializable;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@Entity
-public class User {
-    @Id
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class User implements Serializable {
     private String id;
-
     private String username;
-
     private String firstName;
-
     private String lastName;
-
-    private Date birthDate;
-
-    public User(String id) {
-        this.id = id;
-    }
-
-    public User(String id, String name) {
-        this.id = id;
-        this.username = name;
-    }
+    private String email;
 }

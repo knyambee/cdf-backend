@@ -17,6 +17,7 @@
 		<java.version>17</java.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
+		<keycloak.version>20.0.1</keycloak.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -75,6 +76,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 			<version>3.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.keycloak/keycloak-admin-client -->
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-admin-client</artifactId>
+			<version>${keycloak.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mashape.unirest</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>1.4.9</version>
 		</dependency>
 
 		<dependency>

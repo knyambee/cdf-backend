@@ -3,7 +3,7 @@ package com.knyambe.cdfbackend.funding.empowermentGrant;
 import com.knyambe.cdfbackend.funding.general.Funds;
 import com.knyambe.cdfbackend.funding.general.FundsRepository;
 import com.knyambe.cdfbackend.security.User;
-import com.knyambe.cdfbackend.security.UserRepository;
+import com.knyambe.cdfbackend.security.keycloak.KeycloakAdminClientService;
 import org.flowable.engine.RuntimeService;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
@@ -15,12 +15,12 @@ import java.util.Map;
 @RepositoryEventHandler
 public class EmpowermentGrantEventHandler {
     private final RuntimeService runtimeService;
-    private final UserRepository userRepository;
+    private final KeycloakAdminClientService keycloakAdminClientService;
     private final FundsRepository fundsRepository;
 
-    public EmpowermentGrantEventHandler(RuntimeService runtimeService, UserRepository userRepository, FundsRepository fundsRepository) {
+    public EmpowermentGrantEventHandler(RuntimeService runtimeService, KeycloakAdminClientService keycloakAdminClientService, FundsRepository fundsRepository) {
         this.runtimeService = runtimeService;
-        this.userRepository = userRepository;
+        this.keycloakAdminClientService = keycloakAdminClientService;
         this.fundsRepository = fundsRepository;
     }
 
@@ -28,10 +28,10 @@ public class EmpowermentGrantEventHandler {
     public void invokeWorkflow(EmpowermentGrant empowermentGrant ) {
 
         // Find backend users to work on task.
-        User wardCommittee = userRepository.findByUsername("wardCommittee");
-        User constituencyCommittee = userRepository.findByUsername("constituencyCommittee");
-        User localGov = userRepository.findByUsername("localGov");
-        User minister = userRepository.findByUsername("minister");
+        User wardCommittee = keycloakAdminClientService.getUser("ward");
+        User constituencyCommittee = keycloakAdminClientService.getUser("constituency");
+        User localGov = keycloakAdminClientService.getUser("local_authority");
+        User minister = keycloakAdminClientService.getUser("minister");
 
         Map<String, Object> variables = new HashMap<>();
         variables.put("wardCommittee", wardCommittee);
