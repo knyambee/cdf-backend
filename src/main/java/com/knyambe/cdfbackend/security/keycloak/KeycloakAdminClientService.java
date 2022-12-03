@@ -25,13 +25,17 @@ public class KeycloakAdminClientService {
         List<UserRepresentation> userRepresentations = kcProvider.getInstance().realm(realm).users().search(username);
         User user = new User();
         for (UserRepresentation userRepresentation : userRepresentations) {
-            user.setId(userRepresentation.getId());
-            user.setUsername(userRepresentation.getUsername());
-            user.setFirstName(userRepresentation.getFirstName());
-            user.setLastName(userRepresentation.getLastName());
-            user.setEmail(userRepresentation.getEmail());
+            mapToUser(user, userRepresentation);
         }
         return user;
+    }
+
+    private static void mapToUser(User user, UserRepresentation userRepresentation) {
+        user.setId(userRepresentation.getId());
+        user.setUsername(userRepresentation.getUsername());
+        user.setFirstName(userRepresentation.getFirstName());
+        user.setLastName(userRepresentation.getLastName());
+        user.setEmail(userRepresentation.getEmail());
     }
 
 }

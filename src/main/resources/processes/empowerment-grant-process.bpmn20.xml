@@ -177,7 +177,6 @@
         <serviceTask id="ministerApprovalNotification" name="Final approval - Award funding."
                      flowable:class="com.knyambe.cdfbackend.workflow.minister.MinisterApproval"/>
         <sequenceFlow sourceRef="ministerApprovalNotification" targetRef="ministerApproval"/>
-        <sequenceFlow sourceRef="localGovernmentApprovalNotification" targetRef="ministerApproveTask"/>
         <serviceTask id="sendMinisterRejectionMail" flowable:type="mail">
             <extensionElements>
                 <flowable:field name="from" stringValue="knyambedev@gmail.com"/>
