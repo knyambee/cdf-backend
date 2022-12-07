@@ -1,6 +1,8 @@
 package com.knyambe.cdfbackend.workflow;
 
+import org.flowable.engine.HistoryService;
 import org.flowable.engine.TaskService;
+import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.task.api.Task;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +16,17 @@ import java.util.Map;
 public class WorkflowService {
 
     private final TaskService taskService;
+    private final HistoryService historyService;
 
-    public WorkflowService(TaskService taskService) {
+    public WorkflowService(TaskService taskService, HistoryService historyService) {
         this.taskService = taskService;
+        this.historyService = historyService;
     }
 
     public List<Task> getTasks(String assignee) {
         return taskService.createTaskQuery().taskAssignee(assignee).list();
     }
+
 
     public void submitApproval(Approval approval) {
         Map<String, Object> variables = new HashMap<>();
@@ -29,8 +34,8 @@ public class WorkflowService {
         taskService.complete(approval.getId(), variables);
     }
 
-    public Task getTaskByProcessInstanceId(String processInstanceId) {
-        return taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+    public Task getTask(String taskId) {
+        return taskService.createTaskQuery()
+                .taskId(taskId).singleResult();
     }
-
 }

@@ -1,6 +1,5 @@
 package com.knyambe.cdfbackend.workflow;
 
-import com.knyambe.cdfbackend.funding.communityProjects.CommunityProjects;
 import com.knyambe.cdfbackend.funding.general.FundApplication;
 import com.knyambe.cdfbackend.security.User;
 import lombok.Data;

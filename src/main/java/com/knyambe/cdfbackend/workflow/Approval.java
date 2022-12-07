@@ -6,4 +6,6 @@ import lombok.Data;
 public class Approval {
     private String id;
     private boolean status;
+    private String comment;
+    private String processesInstanceId;
 }

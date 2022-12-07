@@ -26,7 +26,7 @@ public class TasksController {
         this.taskService = taskService;
     }
 
-    @GetMapping( "/tasks")
+    @GetMapping("/tasks")
     public List<FundingTask> getTasks(@RequestParam String assignee) {
         List<Task> tasks = workflowService.getTasks(assignee);
         List<FundingTask> pendingTasks = new ArrayList<>();
@@ -37,7 +37,7 @@ public class TasksController {
             } else if (task.getName().contains("Grant")) {
                 pendingTasks.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (EmpowermentGrant) processVariables.get("empowermentGrant"), (User) processVariables.get("wardCommittee")));
             } else if (task.getName().contains("Loan")) {
-                pendingTasks.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (EmpowermentLoan) processVariables.get("empowermentLoan"), (User) processVariables.get("wardCommittee")));
+                pendingTasks.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(),  (EmpowermentLoan) processVariables.get("empowermentLoan"), (User) processVariables.get("wardCommittee")));
             } else if (task.getName().contains("Skills")) {
                 pendingTasks.add(new FundingTask(task.getId(), task.getName(), task.getCreateTime(), (SkillsTrainingBursary) processVariables.get("skillsTrainingBursary"), (User) processVariables.get("wardCommittee")));
             }
@@ -47,6 +47,8 @@ public class TasksController {
 
     @PostMapping("/approve")
     public void approveFundingApplication(@RequestBody Approval approval) {
+        Task ongoingTask = workflowService.getTask(approval.getId());
+        taskService.addComment(approval.getId(), ongoingTask.getProcessInstanceId(), approval.getComment());
         workflowService.submitApproval(approval);
     }
 

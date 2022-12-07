@@ -29,14 +29,40 @@
             </conditionExpression>
         </sequenceFlow>
 
-        <serviceTask id="wardApprovalNotification" name="Submit application to constituency committee for review"
+        <serviceTask id="wardApprovalNotification" flowable:type="mail">
+            <extensionElements>
+                <flowable:field name="from" stringValue="knyambedev@gmail.com"/>
+                <flowable:field name="to" expression="knyambe.social@gmail.com"/>
+                <flowable:field name="subject" expression="Review skills development bursary submission"/>
+                <flowable:field name="html">
+                    <flowable:expression>
+                        <![CDATA[
+                          <html>
+                            <body>
+                              Hello CDC,<br/><br/>
+
+                              You have a request to review a new skills development bursary submission.<br/><br/>
+
+                              Kind regards,<br/>
+                              Ward Committee.
+                            </body>
+                          </html>
+                        ]]>
+                    </flowable:expression>
+                </flowable:field>
+            </extensionElements>
+        </serviceTask>
+
+        <sequenceFlow sourceRef="wardApprovalNotification" targetRef="submitWardApprovalTask"/>
+        <serviceTask id="submitWardApprovalTask" name="Submit application to constituency committee for review"
                      flowable:class="com.knyambe.cdfbackend.workflow.ward.WardApproval"/>
-        <sequenceFlow sourceRef="wardApprovalNotification" targetRef="constituencyApproveTask"/>
+        <sequenceFlow sourceRef="submitWardApprovalTask" targetRef="constituencyApproveTask"/>
+
         <serviceTask id="sendWardRejectionMail" flowable:type="mail">
             <extensionElements>
                 <flowable:field name="from" stringValue="knyambedev@gmail.com"/>
                 <flowable:field name="to" expression="knyambe.social@gmail.com"/>
-                <flowable:field name="subject" expression="Your application for Skills Development Bursary"/>
+                <flowable:field name="subject" expression="Your application for skills development bursary"/>
                 <flowable:field name="html">
                     <flowable:expression>
                         <![CDATA[
@@ -78,14 +104,41 @@
         ]]>
             </conditionExpression>
         </sequenceFlow>
-        <serviceTask id="constituencyApprovalNotification" name="Submit application to Local government for review"
+
+        <serviceTask id="constituencyApprovalNotification" flowable:type="mail">
+            <extensionElements>
+                <flowable:field name="from" stringValue="knyambedev@gmail.com"/>
+                <flowable:field name="to" expression="knyambe.social@gmail.com"/>
+                <flowable:field name="subject" expression="Review skills development bursary submission"/>
+                <flowable:field name="html">
+                    <flowable:expression>
+                        <![CDATA[
+                          <html>
+                            <body>
+                              Hello Local government Authority,<br/><br/>
+
+                              You have a request to review a new skills development bursary submission.<br/><br/>
+
+                              Kind regards,<br/>
+                              Community Development Committee.
+                            </body>
+                          </html>
+                        ]]>
+                    </flowable:expression>
+                </flowable:field>
+            </extensionElements>
+        </serviceTask>
+        <sequenceFlow sourceRef="constituencyApprovalNotification" targetRef="submitConstituencyApprovalTask"/>
+        <serviceTask id="submitConstituencyApprovalTask" name="Submit application to Local government for review"
                      flowable:class="com.knyambe.cdfbackend.workflow.constituency.ConstituencyApproval"/>
-        <sequenceFlow sourceRef="constituencyApprovalNotification" targetRef="LocalGovernmentApproveTask"/>
+        <sequenceFlow sourceRef="submitConstituencyApprovalTask" targetRef="LocalGovernmentApproveTask"/>
+
+
         <serviceTask id="sendConstituencyRejectionMail" flowable:type="mail">
             <extensionElements>
                 <flowable:field name="from" stringValue="knyambedev@gmail.com"/>
                 <flowable:field name="to" expression="knyambe.social@gmail.com"/>
-                <flowable:field name="subject" expression="Your submission for Skills Development Bursary"/>
+                <flowable:field name="subject" expression="Your submission for skills development bursary"/>
                 <flowable:field name="html">
                     <flowable:expression>
                         <![CDATA[
@@ -126,14 +179,39 @@
         ]]>
             </conditionExpression>
         </sequenceFlow>
-        <serviceTask id="localGovernmentApprovalNotification" name="Submit application to the Minister for review"
+        <serviceTask id="localGovernmentApprovalNotification" flowable:type="mail">
+            <extensionElements>
+                <flowable:field name="from" stringValue="knyambedev@gmail.com"/>
+                <flowable:field name="to" expression="knyambe.social@gmail.com"/>
+                <flowable:field name="subject" expression="Review skills development bursary submission"/>
+                <flowable:field name="html">
+                    <flowable:expression>
+                        <![CDATA[
+                          <html>
+                            <body>
+                              Hello Minister,<br/><br/>
+
+                              You have a request to review a new skills development bursary submission.<br/><br/>
+
+                              Kind regards,<br/>
+                              Local Government Authority.
+                            </body>
+                          </html>
+                        ]]>
+                    </flowable:expression>
+                </flowable:field>
+            </extensionElements>
+        </serviceTask>
+        <sequenceFlow sourceRef="localGovernmentApprovalNotification" targetRef="submitLocalGovernmentApprovalTask"/>
+        <serviceTask id="submitLocalGovernmentApprovalTask" name="Submit application to the Minister for review"
                      flowable:class="com.knyambe.cdfbackend.workflow.localgovernment.LocalGovernmentApproval"/>
-        <sequenceFlow sourceRef="localGovernmentApprovalNotification" targetRef="ministerApproveTask"/>
+        <sequenceFlow sourceRef="submitLocalGovernmentApprovalTask" targetRef="ministerApproveTask"/>
+
         <serviceTask id="sendLocalGovernmentRejectionMail" flowable:type="mail">
             <extensionElements>
                 <flowable:field name="from" stringValue="knyambedev@gmail.com"/>
                 <flowable:field name="to" expression="knyambe.social@gmail.com"/>
-                <flowable:field name="subject" expression="Your submission for Skills Development Bursary"/>
+                <flowable:field name="subject" expression="Your submission for skills development bursary"/>
                 <flowable:field name="html">
                     <flowable:expression>
                         <![CDATA[
@@ -174,14 +252,41 @@
         ]]>
             </conditionExpression>
         </sequenceFlow>
-        <serviceTask id="ministerApprovalNotification" name="Final approval - Award funding."
+        <serviceTask id="ministerApprovalNotification" flowable:type="mail">
+            <extensionElements>
+                <flowable:field name="from" stringValue="knyambedev@gmail.com"/>
+                <flowable:field name="to" expression="knyambe.social@gmail.com"/>
+                <flowable:field name="subject" expression="Congratulations! Your skills development bursary submission has been approved"/>
+                <flowable:field name="html">
+                    <flowable:expression>
+                        <![CDATA[
+                          <html>
+                            <body>
+                              Hello everyone,<br/><br/>
+
+                              Congratulations! Your request for skills development bursary has been approved.
+                               Payment details will be communicated shortly.<br/><br/>
+
+                              Kind regards,<br/>
+                              Minister.
+                            </body>
+                          </html>
+                        ]]>
+                    </flowable:expression>
+                </flowable:field>
+            </extensionElements>
+        </serviceTask>
+
+        <sequenceFlow sourceRef="ministerApprovalNotification" targetRef="ministerFinalApproval"/>
+        <serviceTask id="ministerFinalApproval" name="Final approval - Award funding"
                      flowable:class="com.knyambe.cdfbackend.workflow.minister.MinisterApproval"/>
-        <sequenceFlow sourceRef="ministerApprovalNotification" targetRef="ministerApproval"/>
+        <sequenceFlow sourceRef="ministerFinalApproval" targetRef="ministerApproval"/>
+
         <serviceTask id="sendMinisterRejectionMail" flowable:type="mail">
             <extensionElements>
                 <flowable:field name="from" stringValue="knyambedev@gmail.com"/>
                 <flowable:field name="to" expression="knyambe.social@gmail.com"/>
-                <flowable:field name="subject" expression="Your submission for Skills Development Bursary"/>
+                <flowable:field name="subject" expression="Your submission for skills development bursary"/>
                 <flowable:field name="html">
                     <flowable:expression>
                         <![CDATA[
