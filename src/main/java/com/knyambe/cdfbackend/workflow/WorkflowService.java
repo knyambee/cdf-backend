@@ -2,7 +2,7 @@ package com.knyambe.cdfbackend.workflow;
 
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.TaskService;
-import org.flowable.engine.history.HistoricActivityInstance;
+import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.task.api.Task;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +27,11 @@ public class WorkflowService {
         return taskService.createTaskQuery().taskAssignee(assignee).list();
     }
 
+    public HistoricProcessInstance getTaskByReferenceNumber(String referenceNo) {
+        return historyService.createHistoricProcessInstanceQuery()
+                .variableExists(referenceNo)
+                .singleResult();
+    }
 
     public void submitApproval(Approval approval) {
         Map<String, Object> variables = new HashMap<>();

@@ -3,6 +3,8 @@ package com.knyambe.cdfbackend.workflow;
 import com.knyambe.cdfbackend.funding.communityProjects.CommunityProjects;
 import com.knyambe.cdfbackend.funding.empowermentGrant.EmpowermentGrant;
 import com.knyambe.cdfbackend.funding.empowermentLoan.EmpowermentLoan;
+import com.knyambe.cdfbackend.funding.general.Funds;
+import com.knyambe.cdfbackend.funding.general.FundsRepository;
 import com.knyambe.cdfbackend.funding.skillsTrainingBursary.SkillsTrainingBursary;
 import com.knyambe.cdfbackend.security.User;
 import org.flowable.engine.TaskService;
@@ -20,10 +22,12 @@ public class TasksController {
     private final WorkflowService workflowService;
 
     private final TaskService taskService;
+    private final FundsRepository fundsRepository;
 
-    public TasksController(WorkflowService workflowService, TaskService taskService) {
+    public TasksController(WorkflowService workflowService, TaskService taskService, FundsRepository fundsRepository) {
         this.workflowService = workflowService;
         this.taskService = taskService;
+        this.fundsRepository = fundsRepository;
     }
 
     @GetMapping("/tasks")
@@ -49,6 +53,14 @@ public class TasksController {
     public void approveFundingApplication(@RequestBody Approval approval) {
         Task ongoingTask = workflowService.getTask(approval.getId());
         taskService.addComment(approval.getId(), ongoingTask.getProcessInstanceId(), approval.getComment());
+
+        Funds updateFund = fundsRepository.findByTaskId(approval.getId());
+        if (approval.isStatus()) {
+            updateFund.setStatus(1);
+        } else {
+            updateFund.setStatus(2);
+        }
+
         workflowService.submitApproval(approval);
     }
 

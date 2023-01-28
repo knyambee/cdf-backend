@@ -10,4 +10,6 @@ import java.util.List;
 @CrossOrigin
 public interface FundsRepository extends CrudRepository<Funds, Long> {
     List<Funds> findByUserId(String userId);
+
+    Funds findByTaskId(String taskId);
 }

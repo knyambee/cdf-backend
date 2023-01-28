@@ -42,7 +42,7 @@ public class EmpowermentGrantEventHandler {
 
         runtimeService.startProcessInstanceByKey("empowermentGrantTask", variables);
 
-        Funds newEntry = new Funds(empowermentGrant.getReferenceNo(), "Empowerment Grant", new BigDecimal(0), empowermentGrant.getUserId());
-        fundsRepository.save(newEntry);
+//        Funds newEntry = new Funds(empowermentGrant.getReferenceNo(), "Empowerment Grant", new BigDecimal(0), empowermentGrant.getUserId());
+//        fundsRepository.save(newEntry);
     }
 }

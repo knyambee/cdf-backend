@@ -4,9 +4,13 @@ import com.knyambe.cdfbackend.funding.general.Funds;
 import com.knyambe.cdfbackend.funding.general.FundsRepository;
 import com.knyambe.cdfbackend.security.User;
 import com.knyambe.cdfbackend.security.keycloak.KeycloakAdminClientService;
+import com.knyambe.cdfbackend.workflow.WorkflowService;
 import org.flowable.engine.RuntimeService;
+import org.flowable.engine.history.HistoricProcessInstance;
+import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
+import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 
 import java.util.HashMap;
@@ -19,17 +23,18 @@ public class CommunityProjectsEventHandler {
     @Autowired
     private RuntimeService runtimeService;
     private final FundsRepository fundsRepository;
+    private final WorkflowService workflowService;
     private final KeycloakAdminClientService keycloakAdminClientService;
 
-    public CommunityProjectsEventHandler(FundsRepository fundsRepository, KeycloakAdminClientService keycloakAdminClientService) {
+    public CommunityProjectsEventHandler(FundsRepository fundsRepository, WorkflowService workflowService, KeycloakAdminClientService keycloakAdminClientService) {
+        this.workflowService = workflowService;
         this.keycloakAdminClientService = keycloakAdminClientService;
         this.fundsRepository = fundsRepository;
     }
 
     @HandleAfterCreate
-    public void invokeWorkflow(CommunityProjects communityProjects) {
+    public void postToGeneralFunds(CommunityProjects communityProjects) {
         logger.info("Invoking workflow for community project Reference no: " + communityProjects.getReferenceNo());
-
         // Find backend users to work on task.
         User wardCommittee = keycloakAdminClientService.getUser("ward");
         User constituencyCommittee = keycloakAdminClientService.getUser("constituency");
@@ -43,10 +48,13 @@ public class CommunityProjectsEventHandler {
         variables.put("minister", minister);
 
         variables.put("communityProject", communityProjects);
+        variables.put("referenceNo", communityProjects.getReferenceNo());
 
         runtimeService.startProcessInstanceByKey("communityProjectTask", variables);
 
-        Funds newEntry = new Funds(communityProjects.getReferenceNo(), "Community Project", communityProjects.getEstimatedCost(), communityProjects.getUserId());
+        // find created task and save with the new reference number.
+        HistoricProcessInstance newCommunityProjectTask = workflowService.getTaskByReferenceNumber(communityProjects.getReferenceNo());
+        Funds newEntry = new Funds(communityProjects.getReferenceNo(), "Community Project", communityProjects.getEstimatedCost(), communityProjects.getUserId(), newCommunityProjectTask.getSuperProcessInstanceId());
         fundsRepository.save(newEntry);
     }
 

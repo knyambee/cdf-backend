@@ -43,7 +43,7 @@ public class SkillsTrainingBursaryEventHandler {
 
         runtimeService.startProcessInstanceByKey("skillsDevelopmentBursaryTask", variables);
 
-        Funds newEntry = new Funds(skillsTrainingBursary.getReferenceNo(), "Skills Development Bursary", new BigDecimal(0), skillsTrainingBursary.getUserId());
-        fundsRepository.save(newEntry);
+//        Funds newEntry = new Funds(skillsTrainingBursary.getReferenceNo(), "Skills Development Bursary", new BigDecimal(0), skillsTrainingBursary.getUserId());
+//        fundsRepository.save(newEntry);
     }
 }

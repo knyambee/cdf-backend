@@ -40,7 +40,7 @@ public class EmpowermentLoanEventHandler {
 
         runtimeService.startProcessInstanceByKey("empowermentLoanTask", variables);
 
-        Funds newEntry = new Funds(empowermentLoan.getReferenceNo(), "Empowerment Loan", empowermentLoan.getLoanAmount(), empowermentLoan.getUserId());
-        fundsRepository.save(newEntry);
+//        Funds newEntry = new Funds(empowermentLoan.getReferenceNo(), "Empowerment Loan", empowermentLoan.getLoanAmount(), empowermentLoan.getUserId());
+//        fundsRepository.save(newEntry);
     }
 }
